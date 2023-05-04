@@ -7,7 +7,7 @@ let elapsedTime = 0;
 let gameInterval;
 let completed = false;
 let score = 0;
-const winningScore = 25;
+const winningScore = 22;
 
 function createGrid() {
     for (let i = 0; i < gridSize * gridSize; i++) {
