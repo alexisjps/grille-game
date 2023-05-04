@@ -1,10 +1,13 @@
 const colors = ['red', 'green', 'blue', 'yellow'];
-const gridSize = 5;
+const gridSize = 7;
 const gameGrid = document.getElementById('gameGrid');
 const timerElement = document.getElementById('timer');
+const scoreElement = document.getElementById('score');
 let elapsedTime = 0;
 let gameInterval;
 let completed = false;
+let score = 0;
+const winningScore = 25;
 
 function createGrid() {
     for (let i = 0; i < gridSize * gridSize; i++) {
@@ -23,10 +26,10 @@ function checkAdjacentCells(index) {
     const currentColor = currentCell.style.backgroundColor;
 
     const adjacentCells = [
-        index - gridSize,
-        index + gridSize,
-        index % gridSize !== 0 ? index - 1 : -1,
-        (index + 1) % gridSize !== 0 ? index + 1 : -1
+        index - gridSize, // Top
+        index + gridSize, // Bottom
+        index % gridSize !== 0 ? index - 1 : -1, // Left
+        (index + 1) % gridSize !== 0 ? index + 1 : -1 // Right
     ];
 
     let matches = 0;
@@ -43,6 +46,8 @@ function checkAdjacentCells(index) {
 
     if (matches > 0) {
         currentCell.style.backgroundColor = '';
+        score += matches;
+        scoreElement.innerText = `Score : ${score}`;
     }
     checkGameCompletion();
 }
@@ -64,18 +69,13 @@ function startTimer() {
 }
 
 function checkGameCompletion() {
-    completed = true;
-    for (let i = 0; i < gridSize * gridSize; i++) {
-        if (gameGrid.children[i].style.backgroundColor !== '') {
-            completed = false;
-            break;
-        }
-    }
-
-    if (completed) {
+    if (score >= winningScore) {
+        completed = true;
         clearInterval(gameInterval);
         timerElement.style.color = 'green';
         timerElement.style.fontWeight = 'bold';
+        scoreElement.style.color = 'green';
+        scoreElement.style.fontWeight = 'bold';
     }
 }
 
