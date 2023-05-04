@@ -17,19 +17,21 @@ function createGrid() {
         cell.addEventListener('click', () => {
             checkAdjacentCells(i);
         });
+        cell.tabIndex = 0; // Ajoutez cette ligne
         gameGrid.appendChild(cell);
     }
 }
 
 function checkAdjacentCells(index) {
     const currentCell = gameGrid.children[index];
+    currentCell.focus();
     const currentColor = currentCell.style.backgroundColor;
 
     const adjacentCells = [
-        index - gridSize, // Top
-        index + gridSize, // Bottom
-        index % gridSize !== 0 ? index - 1 : -1, // Left
-        (index + 1) % gridSize !== 0 ? index + 1 : -1 // Right
+        index - gridSize,
+        index + gridSize,
+        index % gridSize !== 0 ? index - 1 : -1,
+        (index + 1) % gridSize !== 0 ? index + 1 : -1
     ];
 
     let matches = 0;
@@ -48,6 +50,13 @@ function checkAdjacentCells(index) {
         currentCell.style.backgroundColor = '';
         score += matches;
         scoreElement.innerText = `Score : ${score}`;
+        setTimeout(() => {
+            currentCell.blur();
+        }, 100);
+    } else {
+        setTimeout(() => {
+            currentCell.blur();
+        }, 100);
     }
     checkGameCompletion();
 }
